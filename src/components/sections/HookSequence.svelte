@@ -6,16 +6,18 @@
   let timeouts: ReturnType<typeof setTimeout>[] = [];
 
   // Animation states
-  let genericLines = $state<boolean[]>([false, false, false, false, false]);
+  let genericLines = $state<boolean[]>([false, false, false, false, false, false, false]);
   let genericDimmed = $state(false);
   let commentaryLines = $state<boolean[]>([false, false, false, false]);
 
   const genericContent = [
-    { text: "\u201CUnlock your potential.\u201D", style: "sans" },
-    { text: "\u201CWe\u2019re passionate about helping businesses grow.\u201D", style: "serif" },
-    { text: "\u201CIn today\u2019s fast-paced digital landscape\u2026\u201D", style: "mono" },
-    { text: "\u201COur innovative solutions empower teams to\u2026\u201D", style: "sans-alt" },
-    { text: "\u201CReady to take your business to the next level?\u201D", style: "serif-alt" },
+    { text: "\u201CWe\u2019re passionate about helping businesses grow.\u201D", style: "sans" },
+    { text: "\u201CIn today\u2019s fast-paced digital landscape, staying ahead requires innovation.\u201D", style: "serif" },
+    { text: "\u201CHi [Name], I hope this email finds you well!\u201D", style: "mono" },
+    { text: "\u201COur team of experts delivers cutting-edge solutions tailored to your needs.\u201D", style: "sans-alt" },
+    { text: "\u201CReady to take your business to the next level? Let\u2019s connect.\u201D", style: "serif-alt" },
+    { text: "\u201CExcited to share some amazing news! \uD83D\uDE80\u201D", style: "sans" },
+    { text: "\u201CWe leverage AI to empower teams and drive unprecedented growth.\u201D", style: "serif" },
   ];
 
   const commentaryContent = [
@@ -37,7 +39,7 @@
     timeouts.forEach(clearTimeout);
     timeouts = [];
     running = false;
-    genericLines = [false, false, false, false, false];
+    genericLines = [false, false, false, false, false, false, false];
     genericDimmed = false;
     commentaryLines = [false, false, false, false];
   }
