@@ -1,4 +1,4 @@
-# CushLabs Scrollytelling
+# CushLabs CWS Scrollytelling
 
 ![Astro](https://img.shields.io/badge/Astro-5-BC52EE?logo=astro&logoColor=white)
 ![Svelte](https://img.shields.io/badge/Svelte-5-FF3E00?logo=svelte&logoColor=white)
@@ -6,45 +6,37 @@
 ![TypeScript](https://img.shields.io/badge/TypeScript-blue?logo=typescript&logoColor=white)
 ![Vercel](https://img.shields.io/badge/Vercel-black?logo=vercel&logoColor=white)
 
-> Cinematic, bilingual scrollytelling pitch decks that feel like cinema — not slides.
+> Cinematic scrollytelling conversion narrative for the CushLabs Context Writing System (CWS).
 
 ## Overview
 
-CushLabs Scrollytelling is a production-grade template for building immersive pitch deck websites. Instead of static slides, content is delivered through a cinematic scroll-driven narrative with synchronized narration, animated reveals, and atmospheric visual effects.
+This is not a product explainer or feature list. It's a cinematic story that takes readers through a nine-section emotional arc — from recognizing the problem with generic AI content, through insight and belief, to conversion.
 
-The template supports two interaction modes: **Presentation Mode** (scroll-locked, auto-narrated, auto-advancing) and **Browse Freely** (normal scrolling with all interactive features). Both modes work in all configured languages with instant switching — no page reloads, no route changes.
+The narrative is built on the [cushlabs-scrollytelling](https://github.com/RCushmaniii/cushlabs-scrollytelling) template architecture, customized for the CWS product story. Each section is a self-contained Svelte 5 component with its own scroll-triggered animation timeline, composed into a single continuous page.
 
-Everything is driven from a single `scrollytelling.config.ts` file. New pitch decks are created by editing config and writing MDX content files, without touching CSS or JavaScript internals.
-
-Born from the [atlas-biodiversidad-pitch](https://github.com/RCushmaniii/atlas-biodiversidad-pitch) project, which proved the concept as a single 3,000-line HTML file. This template extracts every feature into a reusable, component-driven architecture.
+The site deploys to [cws.cushlabs.ai](https://cws.cushlabs.ai) as a static Vercel build. No environment variables, no database, no runtime dependencies.
 
 ## The Challenge
 
-Traditional pitch decks are forgettable. Investors and stakeholders see hundreds of slide-based presentations. The ones that win aren't just informative — they're immersive. But building a custom scrollytelling experience from scratch takes weeks and produces a one-off that can't be reused.
+AI content tools produce text that sounds like everyone and no one. Businesses adopt them expecting efficiency but get output that erodes their brand voice. The real problem isn't AI — it's that AI has no memory of who you are.
 
-This template solves that by making cinematic pitch decks as easy as editing a config file and writing markdown.
+CWS solves this, but explaining a system that captures voice DNA and enforces it across all content requires more than a features page. The pitch needs to *feel* like the problem before it reveals the solution.
 
 ## The Solution
 
-**Astro islands architecture** — 95% of all pages are static HTML/CSS. Only interactive elements (toggles, counters, audio controls) ship JavaScript. The result is near-instant page loads with cinematic interactivity where it matters.
+**Nine-section narrative arc** — Each section serves a specific emotional function: recognition, frustration, insight, belief, desire, trust, personal recognition, clarity, and conversion. The scroll drives the reader through this sequence deliberately.
 
-**Dual-mode experience** — An opening overlay offers "Play Presentation" or "Browse Freely." Presentation mode locks scroll, auto-advances through sections, plays synchronized narration with ambient audio intro, and opens a CTA modal at the end. Browse mode enables normal scrolling with all visual effects and interactions.
+**Scroll-triggered animations** — Svelte 5 components use IntersectionObserver and a `schedule()` helper to manage animation timelines per section. Text morphing, progressive reveals, before/after comparisons, and layered system diagrams all trigger on scroll position.
 
-**Config-driven customization** — Colors, fonts, languages, audio settings, and visual effects are all controlled from `scrollytelling.config.ts`. Tailwind theme, Astro layout, and Svelte components all read from this single source of truth.
+**Typography-driven design** — Dark mode dominant with signal red (#E94560) accents. Inter for body/headings, JetBrains Mono for code references. Grain overlay for texture. No fireflies, no parallax, no video backgrounds — the text and animations carry everything.
 
 ## Technical Highlights
 
-- **Presentation mode engine** with scroll-lock, auto-advance, narration sync, and crossfade transitions
-- **Bilingual content system** using `data-lang` CSS toggle — all content in DOM, instant switching
-- **Audio narration** with ambient intro, per-section playback, language-aware paths, and fade transitions
-- **CSS reveal animations** via IntersectionObserver — repeatable on scroll, staggered delays, 4 animation variants
-- **Mobile carousels** with `scroll-snap`, dot navigation, and auto-cycling during presentation mode
-- **Visual effects** — CSS firefly particles, SVG grain overlay, parallax backgrounds
-- **Animated counters** triggered on scroll with cubic easing and reset-on-exit
-- **Image lightbox** for full-screen image viewing
-- **Social sharing** buttons (WhatsApp, LinkedIn, Email, Copy Link)
-- **Accessibility** — `prefers-reduced-motion`, ARIA labels, keyboard navigation, focus indicators
-- **Scroll navigator** with direction-aware behavior (next section vs. back to top)
+- **Astro 5 islands architecture** — Static HTML/CSS for 95% of the page, JavaScript only where interactivity is needed
+- **Svelte 5 runes syntax** — Components use `$state()`, `$props()`, `$effect()` for reactive state management
+- **Config-driven theming** — All colors, fonts, and site metadata flow from a single `scrollytelling.config.ts` through CSS custom properties
+- **CSS reveal system** — `.reveal`, `.reveal-left`, `.reveal-right`, `.reveal-scale` classes with IntersectionObserver, staggered delays, and `prefers-reduced-motion` overrides
+- **MDX content sections** — Each narrative section is an MDX file that imports its corresponding Svelte sequence component
 
 ## Getting Started
 
@@ -56,62 +48,40 @@ This template solves that by making cinematic pitch decks as easy as editing a c
 ### Installation
 
 ```powershell
-git clone https://github.com/RCushmaniii/cushlabs-scrollytelling.git
-cd cushlabs-scrollytelling
+git clone https://github.com/RCushmaniii/cushlabs-cws-scrollytelling.git
+cd cushlabs-cws-scrollytelling
 pnpm install
 pnpm dev
 ```
 
-### Creating a New Pitch Deck
-
-1. Edit `scrollytelling.config.ts` — set colors, fonts, languages, audio settings
-2. Write MDX files in `src/content/sections/` — one per narrative act
-3. Drop images in `public/images/`, narration audio in `public/audio/{lang}/`
-4. `pnpm dev` to preview, push to GitHub for auto-deploy
+The dev server starts at `localhost:4321`.
 
 ### Environment Variables
 
-No environment variables required. All configuration is in `scrollytelling.config.ts`.
+No environment variables required. All configuration lives in `scrollytelling.config.ts`.
 
 ## Project Structure
 
 ```
 src/
 ├── components/
-│   ├── ui/                    # Svelte interactive islands
-│   │   ├── LanguageToggle.svelte
-│   │   ├── AudioToggle.svelte
-│   │   ├── ProgressBar.svelte
-│   │   ├── ScrollNav.svelte
-│   │   ├── AnimatedCounter.svelte
-│   │   ├── Carousel.svelte
-│   │   ├── CtaModal.svelte
-│   │   ├── Lightbox.svelte
-│   │   ├── ShareButtons.svelte
-│   │   └── PresentationOverlay.svelte
-│   ├── effects/               # Visual atmosphere
-│   │   ├── Fireflies.astro
-│   │   ├── GrainOverlay.astro
-│   │   └── ParallaxBackground.astro
-│   └── sections/              # Section wrappers
-│       ├── Section.astro
-│       ├── HeroSection.astro
-│       └── ContentSection.astro
-├── layouts/
-│   └── ScrollytellingLayout.astro
-├── pages/
-│   └── index.astro
+│   ├── sections/              # Svelte sequence components (one per narrative act)
+│   │   ├── HookSequence.svelte
+│   │   ├── ProblemSequence.svelte
+│   │   ├── InsightSequence.svelte
+│   │   ├── SystemRevealSequence.svelte
+│   │   ├── TransformationSequence.svelte
+│   │   ├── QASequence.svelte
+│   │   ├── AudienceSequence.svelte
+│   │   ├── OfferSequence.svelte
+│   │   └── CloseSequence.svelte
+│   ├── ui/                    # Reusable UI components
+│   └── effects/               # Visual effects (grain overlay)
 ├── content/
-│   └── sections/              # One MDX file per narrative act
-├── lib/
-│   ├── i18n.ts               # Language store and DOM toggle
-│   ├── audio.ts              # Narration, ambient, crossfade
-│   ├── scroll.ts             # Reveal observer, progress, section tracking
-│   └── presentation.ts      # Presentation mode state machine
-└── styles/
-    ├── base.css              # Reset, fonts, lang toggle
-    ├── reveals.css           # Scroll-triggered animations
-    └── reduced-motion.css    # Accessibility overrides
+│   └── sections/              # MDX files defining section order
+├── layouts/                   # Root layout with CSS variable injection
+├── lib/                       # Shared modules: scroll, presentation, audio, i18n
+└── styles/                    # Base reset, reveal animations, reduced-motion
 ```
 
 ## Deployment
@@ -119,19 +89,21 @@ src/
 Push to GitHub with Vercel integration enabled. The site builds as static output with the `@astrojs/vercel` adapter.
 
 ```powershell
-pnpm build    # Build static output
-pnpm preview  # Preview production build locally
+pnpm build     # Build static output
+pnpm preview   # Preview production build locally
 ```
+
+**Deploy target:** [cws.cushlabs.ai](https://cws.cushlabs.ai)
 
 ## Results
 
-| Metric                  | Value                        |
-| ----------------------- | ---------------------------- |
-| Lighthouse Performance  | 98+                          |
-| First Contentful Paint  | < 1s                         |
-| Total JS (islands only) | ~25 KB gzipped               |
-| Time to new pitch deck  | Hours, not days              |
-| Languages supported     | Configurable (EN/ES default) |
+| Metric | Value |
+|--------|-------|
+| Lighthouse Performance | 98+ |
+| First Contentful Paint | < 1s |
+| Total JS (islands only) | ~25 KB gzipped |
+| Narrative sections | 9 |
+| Conversion target | Voice Discovery survey |
 
 ## Contact
 
@@ -139,12 +111,13 @@ pnpm preview  # Preview production build locally
 Business Solution Architect & Full-Stack Developer
 Guadalajara, Mexico
 
+info@cushlabs.ai
 [GitHub](https://github.com/RCushmaniii) | [LinkedIn](https://linkedin.com/in/robertcushman) | [Portfolio](https://cushlabs.ai)
 
 ## License
 
-(c) 2026 Robert Cushman. All rights reserved. See [LICENSE](LICENSE) for details.
+Proprietary — © 2026 Robert Cushman. All rights reserved. See [LICENSE](LICENSE) for details.
 
 ---
 
-_Last Updated: 2026-03-06_
+*Last Updated: 2026-03-14*
