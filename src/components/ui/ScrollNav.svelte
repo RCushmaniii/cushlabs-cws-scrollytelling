@@ -36,7 +36,6 @@
       }
     }
 
-    // No next section found — scroll to bottom (footer)
     window.scrollTo({ top: document.documentElement.scrollHeight, behavior: "smooth" });
   }
 </script>
@@ -45,8 +44,7 @@
 <div class="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 flex flex-col items-center gap-2">
   {#if !scrolledPastHero}
     <span class="scroll-label text-xs text-[var(--color-text-muted)] opacity-60 transition-opacity duration-500">
-      <span data-lang="en" class="active">Scroll down</span>
-      <span data-lang="es">Desliza hacia abajo</span>
+      Scroll down
     </span>
   {/if}
 
@@ -64,8 +62,7 @@
 
   {#if atBottom}
     <span class="text-xs text-[var(--color-text-muted)] opacity-60">
-      <span data-lang="en" class="active">Back to top</span>
-      <span data-lang="es">Volver arriba</span>
+      Back to top
     </span>
   {/if}
 </div>

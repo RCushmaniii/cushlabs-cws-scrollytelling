@@ -4,7 +4,10 @@ import ScrollytellingLayout from "@/layouts/ScrollytellingLayout.astro";
 import HeroSection from "@/components/sections/HeroSection.astro";
 import ContentSection from "@/components/sections/ContentSection.astro";
 import GrainOverlay from "@/components/effects/GrainOverlay.astro";
+import PresentationOverlay from "@/components/ui/PresentationOverlay.svelte";
+import Navbar from "@/components/ui/Navbar.svelte";
 import ProgressBar from "@/components/ui/ProgressBar.svelte";
+import ScrollNav from "@/components/ui/ScrollNav.svelte";
 import CWSFooter from "@/components/ui/CWSFooter.svelte";
 
 const sections = (await getCollection("sections")).sort(
@@ -13,7 +16,10 @@ const sections = (await getCollection("sections")).sort(
 ---
 
 <ScrollytellingLayout>
+  <PresentationOverlay slot="presentation-overlay" client:load />
   <ProgressBar slot="progress-bar" client:load />
+  <Navbar slot="navbar" client:load />
+  <ScrollNav slot="scroll-nav" client:load />
   <GrainOverlay slot="grain" />
 
   {sections.map(async (section) => {

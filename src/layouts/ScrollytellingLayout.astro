@@ -14,7 +14,7 @@ const defaultLang = config.languages.find((l) => l.default)?.code ?? "en";
 ---
 
 <!doctype html>
-<html lang={defaultLang}>
+<html lang={defaultLang} class="pres-no-scrollbar">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -53,14 +53,21 @@ const defaultLang = config.languages.find((l) => l.default)?.code ?? "en";
     >
     </style>
   </head>
-  <body data-active-lang={defaultLang}>
-    <!-- Progress bar -->
+  <body data-active-lang={defaultLang} class="overlay-active">
+    <!-- Presentation overlay -->
+    <slot name="presentation-overlay" />
+
+    <!-- Fixed UI chrome -->
     <slot name="progress-bar" />
+    <slot name="navbar" />
 
     <!-- Main content -->
     <main class="max-w-[1440px] mx-auto" style="background: transparent">
       <slot />
     </main>
+
+    <!-- Fixed bottom nav -->
+    <slot name="scroll-nav" />
 
     <!-- Overlays -->
     <slot name="grain" />
