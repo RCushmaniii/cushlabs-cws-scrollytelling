@@ -8,23 +8,25 @@
   // Animation states
   let genericLines = $state<boolean[]>([false, false, false, false, false, false, false]);
   let genericDimmed = $state(false);
+  let vignetteActive = $state(false);
   let commentaryLines = $state<boolean[]>([false, false, false, false]);
+  let glowPulse = $state(false);
 
   const genericContent = [
-    { text: "\u201CWe\u2019re passionate about helping businesses grow.\u201D", style: "sans" },
-    { text: "\u201CIn today\u2019s fast-paced digital landscape, staying ahead requires innovation.\u201D", style: "serif" },
-    { text: "\u201CHi [Name], I hope this email finds you well!\u201D", style: "mono" },
-    { text: "\u201COur team of experts delivers cutting-edge solutions tailored to your needs.\u201D", style: "sans-alt" },
-    { text: "\u201CReady to take your business to the next level? Let\u2019s connect.\u201D", style: "serif-alt" },
-    { text: "\u201CExcited to share some amazing news! \uD83D\uDE80\u201D", style: "sans" },
-    { text: "\u201CWe leverage AI to empower teams and drive unprecedented growth.\u201D", style: "serif" },
+    { text: "\u201CWe\u2019re passionate about helping businesses grow.\u201D", x: 15, y: 12, size: 1.1, rotate: -2 },
+    { text: "\u201CIn today\u2019s fast-paced digital landscape, staying ahead requires innovation.\u201D", x: 55, y: 8, size: 0.85, rotate: 1.5 },
+    { text: "\u201CHi [Name], I hope this email finds you well!\u201D", x: 72, y: 28, size: 0.95, rotate: -1 },
+    { text: "\u201COur team of experts delivers cutting-edge solutions tailored to your needs.\u201D", x: 20, y: 38, size: 0.9, rotate: 0.5 },
+    { text: "\u201CReady to take your business to the next level? Let\u2019s connect.\u201D", x: 60, y: 52, size: 1.0, rotate: -1.5 },
+    { text: "\u201CExcited to share some amazing news!\u201D", x: 30, y: 65, size: 1.05, rotate: 2 },
+    { text: "\u201CWe leverage AI to empower teams and drive unprecedented growth.\u201D", x: 50, y: 78, size: 0.88, rotate: -0.5 },
   ];
 
   const commentaryContent = [
     { text: "This is what AI sounds like without memory.", accent: true, large: true },
-    { text: "Every prompt starts from zero.", accent: false, large: false },
-    { text: "No voice. No guardrails. No context.", accent: false, large: false },
-    { text: "Just\u2026 language.", accent: false, large: false },
+    { text: "Every prompt starts from zero.", accent: false },
+    { text: "No voice. No guardrails. No context.", accent: false },
+    { text: "Just\u2026 language.", accent: false },
   ];
 
   function schedule(fn: () => void, ms: number) {
@@ -41,36 +43,46 @@
     running = false;
     genericLines = [false, false, false, false, false, false, false];
     genericDimmed = false;
+    vignetteActive = false;
     commentaryLines = [false, false, false, false];
+    glowPulse = false;
   }
 
   function startSequence() {
     reset();
     running = true;
 
-    // Step 1: Generic lines fade in one by one
-    const lineDelay = 600;
+    // Step 1: Generic lines scatter in one by one
+    const lineDelay = 500;
     genericContent.forEach((_, i) => {
       schedule(() => {
         genericLines[i] = true;
         genericLines = [...genericLines];
-      }, 400 + i * lineDelay);
+      }, 300 + i * lineDelay);
     });
 
-    // Step 2: After all lines land, pause then dim
-    const allLinesDone = 400 + genericContent.length * lineDelay;
+    // Step 2: Pause, then vignette closes and quotes dim
+    const allLinesDone = 300 + genericContent.length * lineDelay;
+    schedule(() => {
+      vignetteActive = true;
+    }, allLinesDone + 600);
     schedule(() => {
       genericDimmed = true;
-    }, allLinesDone + 800);
+    }, allLinesDone + 900);
 
-    // Step 3: Commentary lines appear one at a time
-    const commentaryStart = allLinesDone + 1400;
+    // Step 3: Commentary lines appear with dramatic entrance
+    const commentaryStart = allLinesDone + 1600;
     commentaryContent.forEach((_, i) => {
       schedule(() => {
         commentaryLines[i] = true;
         commentaryLines = [...commentaryLines];
-      }, commentaryStart + i * 700);
+      }, commentaryStart + i * 800);
     });
+
+    // Step 4: Glow pulse on final line
+    schedule(() => {
+      glowPulse = true;
+    }, commentaryStart + commentaryContent.length * 800 + 200);
   }
 
   onMount(() => {
@@ -86,27 +98,52 @@
     );
     intObs.observe(el);
 
+    // Listen for presentation restart
+    function handleRestart() {
+      if (el && el.getBoundingClientRect().top < window.innerHeight) {
+        startSequence();
+      }
+    }
+    window.addEventListener("presentation:restart-section", handleRestart);
+
     return () => {
       reset();
       intObs.disconnect();
+      window.removeEventListener("presentation:restart-section", handleRestart);
     };
   });
 </script>
 
 <div bind:this={el} class="hook-container">
-  <!-- Generic AI lines -->
-  <div class="generic-wall" class:dimmed={genericDimmed}>
+  <!-- Ambient background glow -->
+  <div class="ambient-glow" class:active={!genericDimmed}></div>
+
+  <!-- Vignette overlay -->
+  <div class="vignette" class:active={vignetteActive}></div>
+
+  <!-- Scattered generic AI quotes -->
+  <div class="generic-field" class:dimmed={genericDimmed}>
     {#each genericContent as line, i}
       <div
-        class="generic-line generic-{line.style}"
+        class="generic-line"
         class:visible={genericLines[i]}
+        style="
+          left: {line.x}%;
+          top: {line.y}%;
+          font-size: {line.size}rem;
+          --rotate: {line.rotate}deg;
+          --delay: {i * 0.08}s;
+        "
       >
         {line.text}
       </div>
     {/each}
+
+    <!-- Scan lines over generic text -->
+    <div class="scan-lines"></div>
   </div>
 
-  <!-- Commentary -->
+  <!-- Commentary (centered, dramatic) -->
   <div class="commentary" class:active={genericDimmed}>
     {#each commentaryContent as line, i}
       <div
@@ -119,6 +156,9 @@
         {line.text}
       </div>
     {/each}
+
+    <!-- Accent glow behind commentary -->
+    <div class="commentary-glow" class:active={glowPulse}></div>
   </div>
 </div>
 
@@ -129,78 +169,106 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 3rem;
-    padding: 2rem 1rem;
     position: relative;
+    overflow: hidden;
   }
 
-  /* ── Generic AI wall ── */
-  .generic-wall {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 1.25rem;
-    transition: opacity 0.8s ease, filter 0.8s ease;
+  /* ── Ambient background ── */
+  .ambient-glow {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(
+      ellipse at 50% 40%,
+      rgba(233, 69, 96, 0.03) 0%,
+      transparent 70%
+    );
+    opacity: 0;
+    transition: opacity 2s ease;
+    pointer-events: none;
   }
-  .generic-wall.dimmed {
-    opacity: 0.25;
-    filter: blur(2px);
+  .ambient-glow.active {
+    opacity: 1;
+  }
+
+  /* ── Vignette ── */
+  .vignette {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(
+      ellipse at 50% 50%,
+      transparent 30%,
+      rgba(10, 10, 10, 0.85) 100%
+    );
+    opacity: 0;
+    transition: opacity 1.2s ease;
+    pointer-events: none;
+    z-index: 2;
+  }
+  .vignette.active {
+    opacity: 1;
+  }
+
+  /* ── Scan lines ── */
+  .scan-lines {
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 2px,
+      rgba(255, 255, 255, 0.01) 2px,
+      rgba(255, 255, 255, 0.01) 4px
+    );
+    pointer-events: none;
+    opacity: 0.5;
+  }
+
+  /* ── Scattered generic lines ── */
+  .generic-field {
+    position: absolute;
+    inset: 0;
+    transition: opacity 1.2s ease, filter 1.2s ease;
+  }
+  .generic-field.dimmed {
+    opacity: 0.08;
+    filter: blur(6px);
   }
 
   .generic-line {
+    position: absolute;
+    max-width: 500px;
+    transform: translateY(20px) rotate(var(--rotate, 0deg));
     opacity: 0;
-    transform: translateY(12px);
-    transition: opacity 0.6s ease, transform 0.6s ease;
-    text-align: center;
-    line-height: 1.4;
+    transition: opacity 0.8s ease, transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
     color: var(--color-text-muted, #8892a4);
+    font-family: 'Inter', system-ui, sans-serif;
+    line-height: 1.4;
+    white-space: nowrap;
+    pointer-events: none;
   }
   .generic-line.visible {
-    opacity: 1;
-    transform: translateY(0);
+    opacity: 0.6;
+    transform: translateY(0) rotate(var(--rotate, 0deg));
+    animation: drift 8s ease-in-out infinite;
+    animation-delay: var(--delay, 0s);
   }
 
-  /* Different "brand" styling for each line */
-  .generic-sans {
-    font-family: 'Inter', system-ui, sans-serif;
-    font-size: 1.125rem;
-    font-weight: 400;
-    letter-spacing: 0.01em;
-  }
-  .generic-serif {
-    font-family: Georgia, 'Times New Roman', serif;
-    font-size: 1.25rem;
-    font-style: italic;
-    font-weight: 400;
-  }
-  .generic-mono {
-    font-family: 'JetBrains Mono', 'Fira Code', monospace;
-    font-size: 0.95rem;
-    font-weight: 400;
-    letter-spacing: -0.02em;
-  }
-  .generic-sans-alt {
-    font-family: 'Inter', system-ui, sans-serif;
-    font-size: 1.05rem;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    font-size: 0.85rem;
-  }
-  .generic-serif-alt {
-    font-family: Georgia, 'Times New Roman', serif;
-    font-size: 1.3rem;
-    font-weight: 400;
+  @keyframes drift {
+    0%, 100% { transform: translateY(0) rotate(var(--rotate, 0deg)); }
+    50% { transform: translateY(-6px) rotate(var(--rotate, 0deg)); }
   }
 
   /* ── Commentary ── */
   .commentary {
+    position: relative;
+    z-index: 3;
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 0.75rem;
+    gap: 1rem;
     opacity: 0;
-    transition: opacity 0.5s ease;
+    transition: opacity 0.8s ease;
+    padding: 0 1.5rem;
   }
   .commentary.active {
     opacity: 1;
@@ -208,38 +276,70 @@
 
   .commentary-line {
     opacity: 0;
-    transform: translateY(8px);
-    transition: opacity 0.5s ease, transform 0.5s ease;
+    transform: translateY(16px) scale(0.92);
+    transition: opacity 0.7s ease, transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
     text-align: center;
     line-height: 1.5;
   }
   .commentary-line.visible {
     opacity: 1;
-    transform: translateY(0);
+    transform: translateY(0) scale(1);
   }
 
   .commentary-line.large {
     font-family: 'Inter', system-ui, sans-serif;
-    font-size: 1.75rem;
-    font-weight: 700;
+    font-size: 2rem;
+    font-weight: 800;
+    letter-spacing: -0.02em;
   }
   .commentary-line.accent {
     color: var(--color-accent, #E94560);
+    text-shadow: 0 0 40px rgba(233, 69, 96, 0.4), 0 0 80px rgba(233, 69, 96, 0.15);
   }
   .commentary-line.muted {
     color: var(--color-text-muted, #8892a4);
-    font-size: 1.125rem;
+    font-size: 1.2rem;
     font-weight: 400;
+  }
+
+  /* ── Commentary glow ── */
+  .commentary-glow {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 400px;
+    height: 400px;
+    transform: translate(-50%, -50%);
+    background: radial-gradient(
+      circle,
+      rgba(233, 69, 96, 0.12) 0%,
+      transparent 70%
+    );
+    opacity: 0;
+    transition: opacity 1.5s ease;
+    pointer-events: none;
+    z-index: -1;
+  }
+  .commentary-glow.active {
+    opacity: 1;
+    animation: glowPulse 3s ease-in-out infinite;
+  }
+  @keyframes glowPulse {
+    0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+    50% { transform: translate(-50%, -50%) scale(1.15); opacity: 0.7; }
   }
 
   /* ── Responsive ── */
   @media (min-width: 768px) {
-    .generic-sans { font-size: 1.35rem; }
-    .generic-serif { font-size: 1.5rem; }
-    .generic-mono { font-size: 1.1rem; }
-    .generic-sans-alt { font-size: 1rem; }
-    .generic-serif-alt { font-size: 1.55rem; }
-    .commentary-line.large { font-size: 2.25rem; }
-    .commentary-line.muted { font-size: 1.35rem; }
+    .commentary-line.large { font-size: 2.75rem; }
+    .commentary-line.muted { font-size: 1.4rem; }
+  }
+
+  @media (max-width: 768px) {
+    .generic-line {
+      max-width: 280px;
+      white-space: normal;
+      font-size: 0.85rem !important;
+    }
   }
 </style>

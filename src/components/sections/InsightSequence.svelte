@@ -133,6 +133,8 @@
 </script>
 
 <div bind:this={el} class="insight-container">
+  <!-- Ambient glow that intensifies during morph -->
+  <div class="insight-ambient" class:active={morphActive}></div>
   <!-- Opening question -->
   <div class="opening" class:visible={openingVisible}>
     What if the AI didn't start from zero?
@@ -228,6 +230,34 @@
     position: relative;
     max-width: 52rem;
     margin: 0 auto;
+    overflow: hidden;
+  }
+
+  /* ── Ambient glow ── */
+  .insight-ambient {
+    position: absolute;
+    top: 30%;
+    left: 50%;
+    width: 600px;
+    height: 600px;
+    transform: translate(-50%, -50%);
+    background: radial-gradient(
+      circle,
+      rgba(233, 69, 96, 0.06) 0%,
+      transparent 65%
+    );
+    opacity: 0;
+    transition: opacity 1.5s ease;
+    pointer-events: none;
+    z-index: 0;
+  }
+  .insight-ambient.active {
+    opacity: 1;
+    animation: insightPulse 4s ease-in-out infinite;
+  }
+  @keyframes insightPulse {
+    0%, 100% { transform: translate(-50%, -50%) scale(1); }
+    50% { transform: translate(-50%, -50%) scale(1.2); }
   }
 
   /* ── Opening question ── */
@@ -238,12 +268,14 @@
     color: var(--color-text, #F0EDE6);
     text-align: center;
     opacity: 0;
-    transform: translateY(16px);
-    transition: opacity 0.7s ease, transform 0.7s ease;
+    transform: translateY(24px) scale(0.9);
+    transition: opacity 0.8s ease, transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+    position: relative;
+    z-index: 1;
   }
   .opening.visible {
     opacity: 1;
-    transform: translateY(0);
+    transform: translateY(0) scale(1);
   }
 
   /* ── Setup lines ── */
@@ -336,7 +368,11 @@
     transform: translateX(0);
   }
   .file-card.landed {
-    box-shadow: 0 0 16px rgba(233, 69, 96, 0.15);
+    box-shadow:
+      0 0 16px rgba(233, 69, 96, 0.2),
+      0 0 40px rgba(233, 69, 96, 0.08),
+      inset 0 1px 0 rgba(233, 69, 96, 0.1);
+    border-color: rgba(233, 69, 96, 0.4);
   }
   .file-card-header {
     display: flex;
@@ -482,9 +518,13 @@
   }
   .punch-accent {
     font-size: 1.65rem;
-    font-weight: 700;
+    font-weight: 800;
     color: var(--color-accent, #E94560);
-    text-shadow: 0 0 30px rgba(233, 69, 96, 0.3);
+    text-shadow:
+      0 0 20px rgba(233, 69, 96, 0.5),
+      0 0 60px rgba(233, 69, 96, 0.2),
+      0 0 100px rgba(233, 69, 96, 0.1);
+    letter-spacing: -0.02em;
   }
 
   /* ── Responsive ── */
