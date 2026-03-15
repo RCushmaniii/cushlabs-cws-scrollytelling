@@ -1,0 +1,74 @@
+---
+import { config } from "../../scrollytelling.config.ts";
+import "@/styles/base.css";
+import "@/styles/reveals.css";
+import "@/styles/reduced-motion.css";
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const { title = config.site.title, description = config.site.description } = Astro.props;
+const defaultLang = config.languages.find((l) => l.default)?.code ?? "en";
+---
+
+<!doctype html>
+<html lang={defaultLang}>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content={description} />
+    <title>{title}</title>
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={config.site.url} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={`${config.site.url}/og-image.jpg`} />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={`${config.site.url}/og-image.jpg`} />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href={config.fonts.googleFontsUrl} rel="stylesheet" />
+    <style
+      define:vars={{
+        "font-heading": config.fonts.heading,
+        "font-body": config.fonts.body,
+        "font-mono": config.fonts.mono,
+        "color-primary": config.colors.primary,
+        "color-secondary": config.colors.secondary,
+        "color-accent": config.colors.accent,
+        "color-background": config.colors.background,
+        "color-surface": config.colors.surface,
+        "color-text": config.colors.text,
+        "color-text-muted": config.colors.textMuted,
+      }}
+    >
+    </style>
+  </head>
+  <body data-active-lang={defaultLang}>
+    <!-- Progress bar -->
+    <slot name="progress-bar" />
+
+    <!-- Main content -->
+    <main class="max-w-[1440px] mx-auto" style="background: transparent">
+      <slot />
+    </main>
+
+    <!-- Overlays -->
+    <slot name="grain" />
+
+    <!-- Scroll reveal initialization -->
+    <script>
+      import { initScrollReveals } from "@/lib/scroll";
+      initScrollReveals();
+    </script>
+  </body>
+</html>

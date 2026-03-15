@@ -1,0 +1,36 @@
+# dependencies
+node_modules/
+
+# build output
+dist/
+.vercel/
+
+# environment
+.env
+.env.local
+.env.*.local
+.env.*
+!.env.example
+
+# editor
+.vscode/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# astro
+.astro/
+
+# logs
+*.log
+
+# generated audio files (keep scripts/prompts, ignore large binaries)
+audio/**/*.mp3
+audio/**/*.wav
+audio/**/*.ogg
+
+.vercel
+.env*.local

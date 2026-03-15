@@ -1,0 +1,43 @@
+---
+import { getCollection } from "astro:content";
+import ScrollytellingLayout from "@/layouts/ScrollytellingLayout.astro";
+import HeroSection from "@/components/sections/HeroSection.astro";
+import ContentSection from "@/components/sections/ContentSection.astro";
+import GrainOverlay from "@/components/effects/GrainOverlay.astro";
+import ProgressBar from "@/components/ui/ProgressBar.svelte";
+import CWSFooter from "@/components/ui/CWSFooter.svelte";
+
+const sections = (await getCollection("sections")).sort(
+  (a, b) => a.data.order - b.data.order
+);
+---
+
+<ScrollytellingLayout>
+  <ProgressBar slot="progress-bar" client:load />
+  <GrainOverlay slot="grain" />
+
+  {sections.map(async (section) => {
+    const { Content } = await section.render();
+
+    if (section.data.type === "hero") {
+      return (
+        <HeroSection id={section.data.id} transparent>
+          <Content />
+        </HeroSection>
+      );
+    }
+
+    return (
+      <ContentSection
+        id={section.data.id}
+        number={section.data.number}
+      >
+        <Content />
+      </ContentSection>
+    );
+  })}
+
+  <div class="relative z-[2]" style="background: var(--color-background)">
+    <CWSFooter client:visible />
+  </div>
+</ScrollytellingLayout>
