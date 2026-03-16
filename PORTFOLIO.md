@@ -2,10 +2,10 @@
 # =============================================================================
 # PORTFOLIO.MD — CushLabs CWS Scrollytelling
 # =============================================================================
-portfolio_enabled: true
+portfolio_enabled: false
 portfolio_priority: 3
-portfolio_featured: true
-portfolio_last_reviewed: "2026-03-14"
+portfolio_featured: false
+portfolio_last_reviewed: "2026-03-15"
 
 title: "CWS Scrollytelling — Conversion Narrative"
 tagline: "Cinematic scroll-driven story that sells the Context Writing System through emotion, not features"
