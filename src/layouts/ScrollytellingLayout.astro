@@ -61,6 +61,9 @@ const defaultLang = config.languages.find((l) => l.default)?.code ?? "en";
     <slot name="progress-bar" />
     <slot name="navbar" />
 
+    <!-- Video backgrounds (outside main to avoid overlay-active opacity) -->
+    <slot name="video-bg" />
+
     <!-- Main content -->
     <main class="max-w-[1440px] mx-auto" style="background: transparent">
       <slot />

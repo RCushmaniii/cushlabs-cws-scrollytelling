@@ -8,6 +8,7 @@ import PresentationOverlay from "@/components/ui/PresentationOverlay.svelte";
 import Navbar from "@/components/ui/Navbar.svelte";
 import ProgressBar from "@/components/ui/ProgressBar.svelte";
 import ScrollNav from "@/components/ui/ScrollNav.svelte";
+import VideoBackground from "@/components/ui/VideoBackground.svelte";
 import CWSFooter from "@/components/ui/CWSFooter.svelte";
 
 const sections = (await getCollection("sections")).sort(
@@ -21,6 +22,11 @@ const sections = (await getCollection("sections")).sort(
   <Navbar slot="navbar" client:load />
   <ScrollNav slot="scroll-nav" client:load />
   <GrainOverlay slot="grain" />
+
+  <!-- Video backgrounds — swap src paths once generated -->
+  <VideoBackground slot="video-bg" src="/video/hook-generic-ai.mp4" sectionId="hook" client:load />
+  <VideoBackground slot="video-bg" src="/video/problem-empty-void.mp4" sectionId="problem" client:load />
+  <VideoBackground slot="video-bg" src="/video/insight-transformation.mp4" sectionId="insight" client:load />
 
   {sections.map(async (section) => {
     const { Content } = await section.render();
