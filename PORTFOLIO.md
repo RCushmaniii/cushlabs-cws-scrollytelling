@@ -3,9 +3,9 @@
 # PORTFOLIO.MD — CushLabs CWS Scrollytelling
 # =============================================================================
 portfolio_enabled: false
-portfolio_priority: 3
-portfolio_featured: false
-portfolio_last_reviewed: "2026-03-15"
+portfolio_priority: 8
+portfolio_featured: true
+portfolio_last_reviewed: "2026-03-14"
 
 title: "CWS Scrollytelling — Conversion Narrative"
 tagline: "Cinematic scroll-driven story that sells the Context Writing System through emotion, not features"
@@ -88,11 +88,13 @@ The conversion goal is a single CTA: "Start Your Voice Discovery," driving quali
 ## Results
 
 **For the Business:**
+
 - Complete conversion narrative deployed at cws.cushlabs.ai
 - Nine-section emotional arc designed to qualify leads before the CTA
 - Single conversion target: Voice Discovery survey intake
 
 **Technical Demonstration:**
+
 - Production Astro 5 + Svelte 5 implementation with scroll-driven animation
 - Config-driven architecture that separates content from presentation
 - Accessibility-first approach with reduced-motion support throughout
