@@ -5,7 +5,7 @@
 portfolio_enabled: false
 portfolio_priority: 8
 portfolio_featured: true
-portfolio_last_reviewed: "2026-03-14"
+portfolio_last_reviewed: "2026-04-21"
 
 title: "CWS Scrollytelling — Conversion Narrative"
 tagline: "Cinematic scroll-driven story that sells the Context Writing System through emotion, not features"
@@ -26,8 +26,8 @@ thumbnail: ""
 hero_images: []
 demo_video_url: ""
 
-live_url: "https://cws.cushlabs.ai"
-demo_url: "https://cws.cushlabs.ai"
+live_url: "https://cushlabs-cws-scrollytelling.vercel.app"
+demo_url: "https://cushlabs-cws-scrollytelling.vercel.app"
 case_study_url: ""
 
 problem_solved: |
@@ -44,7 +44,7 @@ key_outcomes:
   - "Static deploy to Vercel — no runtime, no database, no env vars"
 
 tech_stack:
-  - "Astro 5"
+  - "Astro 6"
   - "Svelte 5"
   - "Tailwind CSS 3"
   - "TypeScript"
@@ -76,7 +76,7 @@ health_status:
 
 CWS Scrollytelling is a conversion-focused narrative experience for the CushLabs Context Writing System. Rather than listing features or showing pricing tables, it takes readers through a deliberate emotional journey: recognition of the generic AI content problem, frustration with the status quo, insight into why AI lacks voice, belief in a systematic solution, and finally desire and action.
 
-Built on the cushlabs-scrollytelling template architecture, the site uses Astro 5 islands to keep JavaScript minimal while Svelte 5 components handle scroll-triggered animations within each narrative section. The entire design is typography-driven — dark mode, signal red accents, grain texture — with no decorative effects competing for attention.
+Built on the cushlabs-scrollytelling template architecture, the site uses Astro 6 islands to keep JavaScript minimal while Svelte 5 components handle scroll-triggered animations within each narrative section. The entire design is typography-driven — dark mode, signal red accents, grain texture — with no decorative effects competing for attention.
 
 The conversion goal is a single CTA: "Start Your Voice Discovery," driving qualified leads into the CWS intake survey.
 
@@ -92,7 +92,7 @@ The conversion goal is a single CTA: "Start Your Voice Discovery," driving quali
 
 **Scroll-driven animation:** Each section is a self-contained Svelte 5 component that manages its own animation timeline via IntersectionObserver and a `schedule()` helper. Animations trigger precisely as the reader scrolls into each act, creating a cinematic pacing without autoplay or video.
 
-**Performance-first architecture:** Astro 5 renders 95% of the page as static HTML/CSS. Only interactive elements ship JavaScript, keeping total JS under 25 KB gzipped. The site loads in under a second and scores 98+ on Lighthouse.
+**Performance-first architecture:** Astro 6 renders 95% of the page as static HTML/CSS. Only interactive elements ship JavaScript, keeping total JS under 25 KB gzipped. The site loads in under a second and scores 98+ on Lighthouse.
 
 ## Technical Highlights
 
@@ -106,12 +106,12 @@ The conversion goal is a single CTA: "Start Your Voice Discovery," driving quali
 
 **For the Business:**
 
-- Complete conversion narrative deployed at cws.cushlabs.ai
+- Complete conversion narrative deployed at cushlabs-cws-scrollytelling.vercel.app
 - Nine-section emotional arc designed to qualify leads before the CTA
 - Single conversion target: Voice Discovery survey intake
 
 **Technical Demonstration:**
 
-- Production Astro 5 + Svelte 5 implementation with scroll-driven animation
+- Production Astro 6 + Svelte 5 implementation with scroll-driven animation
 - Config-driven architecture that separates content from presentation
 - Accessibility-first approach with reduced-motion support throughout
