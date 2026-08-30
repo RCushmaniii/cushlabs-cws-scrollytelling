@@ -1,5 +1,12 @@
 # CLAUDE.md — CushLabs CWS Scrollytelling
 
+## Why this matters before you change anything
+
+The scroll-through explanation of the writing system.
+
+**If this breaks:** The clearest explanation of the most differentiating asset stops working, in public, while still being linked.
+
+Its risk class and revenue proximity are recorded in `operating-system/portfolio/repo-metadata.json`, and are read from there rather than restated here -- the same rule that governs prices, client facts and platform approvals.
 ## Project Overview
 
 Scrollytelling conversion narrative for the CushLabs Context Writing System (CWS). Not a product explainer — a cinematic story that takes readers through recognition, frustration, insight, belief, desire, and action. Built on the cushlabs-scrollytelling template architecture.
@@ -75,3 +82,10 @@ Drive qualified leads into the Voice Discovery survey (CTA: "Start Your Voice Di
 ## Environment Setup
 
 No environment variables required. All configuration lives in `scrollytelling.config.ts`.
+
+
+## Session Log
+
+A running log of all working sessions is maintained at `docs/SESSION_LOG.md`.
+Always append a new entry at the top of this file before closing a session.
+Use the `session-logger` skill to generate the entry.
