@@ -1,5 +1,33 @@
 # CushLabs CWS Scrollytelling
 
+> The writing system is the hardest thing in the fleet to explain in a sentence.
+> This is the version a prospect can scroll through and get.
+
+## The problem it solves
+
+"Context engineering" means nothing to a business owner, and explaining it in prose
+takes longer than anyone will give.
+
+- The value is in how the parts fit together, which is exactly what a paragraph is bad at showing.
+- Prospects discount what they cannot picture, so the most differentiating asset ends up under-sold.
+- Saying it is sophisticated is worthless. Showing the machinery is not.
+
+## What it does for the business
+
+- Makes an abstract system legible in a couple of minutes of scrolling.
+- Turns internal tooling into a credibility asset that supports the sale of everything else.
+
+## Who it's for
+
+- **Prospects and collaborators** trying to understand how the writing system works.
+- **CushLabs**, as proof that the process behind the copy is real.
+
+---
+
+# Technical reference
+
+Everything below is implementation detail. The business case is above.
+
 ![Astro](https://img.shields.io/badge/Astro-5-BC52EE?logo=astro&logoColor=white)
 ![Svelte](https://img.shields.io/badge/Svelte-5-FF3E00?logo=svelte&logoColor=white)
 ![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-3-06B6D4?logo=tailwindcss&logoColor=white)
